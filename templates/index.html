@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Envie Seu Cardápio / MENU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+  </head>
+  <body>
+    <h1>Envie Seu Cardápio / MENU</h1>
+    <form action="{{ url_for('upload_files') }}" class="dropzone">
+    </form>
+    <hr>
+    {% for file in files %}
+      <a href="{{ url_for('ocr', filename=file) }}" style="display: block;" target="_blank"><img src="{{ url_for('upload', filename=file) }}" style="width: 64px"/> EXTRACT MENU</a>
+    {% endfor %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+  </body>
+</html>
