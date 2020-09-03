@@ -8,8 +8,12 @@ import numpy as np
 import cv2
 from PIL import Image
 import json
+from werkzeug.debug import DebuggedApplication
 
 app = Flask(__name__, static_url_path='')
+app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
+
+app.debug = True
 output_dir = "./foods-model"
 nlp = spacy.load(output_dir)
 language = ['por','eng']
