@@ -9,7 +9,7 @@ import cv2
 from PIL import Image
 import json
 from werkzeug.debug import DebuggedApplication
-
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 app = Flask(__name__, static_url_path='')
 app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
 
