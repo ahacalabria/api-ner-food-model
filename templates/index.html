@@ -1,16 +1,49 @@
 <html>
   <head>
     <title>Envie Seu Cardápio / MENU</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
   </head>
   <body>
-    <h1>Envie Seu Cardápio / MENU</h1>
-    <form action="{{ url_for('upload_files') }}" class="dropzone">
+    <div class="container">
+      <section class="hero">
+          <div class="hero-body">
+              <div class="container">
+                <h1 class="title">Menu/Cardápio para Pictograma</h1>
+                <h2 class="subtitle">
+                  Envie Seu Cardápio
+              </h2>
+              </div>
+          </div>
+      </section>
+    <form action="{{ url_for('upload_files') }}" class="dropzone" >
+      <div class="dz-message" data-dz-message><span>Arraste e solte uma imagem de menu/cardápio. Arquivos suportados: *.jpg, *png.</span></div>
     </form>
+    <div class="buttons">
+      <a href="/" class="button is-primary">Carregar as imagens enviadas</a>
+    </div>
+    
     <hr>
-    {% for file in files %}
-      <a href="{{ url_for('ocr', filename=file) }}" style="display: block;" target="_blank"><img src="{{ url_for('upload', filename=file) }}" style="width: 64px"/> EXTRACT MENU</a>
+    <h2 class="subtitle is-6">Imagens Enviadas</h2>
+    <div class="columns is-multiline is-mobile">
+      {% for file in files %}
+        <div class="column is-one-quarter">
+          <div class="card">
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img src="{{ url_for('upload', filename=file) }}" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <a href="{{ url_for('ocr', filename=file) }}" style="display: block;" target="_blank">Converter em Pictograma</a>
+              </div>
+            </div>
+          </div>
+        </div>
     {% endfor %}
+    </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
   </body>
 </html>

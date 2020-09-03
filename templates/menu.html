@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Pictograma | API NER FOOD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  </head>
+  <body>
+    <div class="container">
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container">
+                <h1 class="title">
+                    Pictograma | API NER FOOD
+                </h1>
+                <h2 class="subtitle">
+                    Menu convertido
+                </h2>
+                </div>
+            </div>
+        </section>
+      
+    
+    <div class="columns is-multiline is-mobile">
+        {% for foodname in items %}
+        <div class="column is-one-quarter">
+            <div class="buttons are-large">
+                <button class="button is-info is-light is-fullwidth">{{foodname}}</button>
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

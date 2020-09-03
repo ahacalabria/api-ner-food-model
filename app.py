@@ -65,7 +65,8 @@ def ocr(filename):
 
     menu = pytesseract.image_to_string(th3, lang=language[0], config='--psm 6')
     items = extract_menu(menu)
-    return jsonify({"menu": items})
+    # return jsonify({"menu": items})
+    return render_template('menu.html', items=items)
     # return jsonify({"ocr": phrase})
     # return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
