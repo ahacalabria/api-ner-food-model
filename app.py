@@ -17,8 +17,8 @@ app.debug = True
 output_dir = "./foods-model"
 nlp = spacy.load(output_dir)
 language = ['por','eng']
-app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
-app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif', '.jpeg']
 app.config['UPLOAD_PATH'] = 'uploads'
 
 def validate_image(stream):
@@ -27,7 +27,7 @@ def validate_image(stream):
     format = imghdr.what(None, header)
     if not format:
         return None
-    return '.' + (format if format != 'jpeg' else 'jpg')
+    return '.' + (format)
 
 @app.errorhandler(413)
 def too_large(e):
@@ -44,9 +44,9 @@ def upload_files():
     filename = secure_filename(uploaded_file.filename)
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
-        if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
-                file_ext != validate_image(uploaded_file.stream):
-            return "Invalid image", 400
+        # if file_ext not in app.config['UPLOAD_EXTENSIONS'] or \
+        #         file_ext != validate_image(uploaded_file.stream):
+        #     return "Invalid image", 400
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], filename))
     return '', 204
 
