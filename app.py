@@ -65,6 +65,9 @@ def ocr(filename):
 
     menu = pytesseract.image_to_string(th3, lang=language[0], config='--psm 6')
     items = extract_menu(menu)
+    with open('./static/ocr_files/{0}.txt'.format(filename),'w+') as f:
+      f.write(menu)
+    f.close()
     # return jsonify({"menu": items})
     return render_template('menu.html', items=items)
     # return jsonify({"ocr": phrase})
@@ -84,6 +87,14 @@ def extract_menu(menu):
         if ent.label_ == "FOOD":
             items.append(ent.text)
     return items
+
+@app.route('/get_menu/<filename>')
+def get_menu(filename):
+    menu = ""
+    with open("./static/ocr_files/{0}.txt".format(filename)) as f:
+        menu = " ".join([x.strip() for x in f]) 
+    items = extract_menu(menu)
+    return render_template('menu.html', items=items)
 
 @app.route('/extract', methods=['GET'])
 def extract():
