@@ -77,3 +77,4 @@ uWSGI==2.0.19.1
 wasabi==0.7.0
 websockets==8.1
 Werkzeug==1.0.1
+easyocr==1.1.9

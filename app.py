@@ -8,6 +8,7 @@ import numpy as np
 import cv2
 from PIL import Image
 import json
+import easyocr
 from werkzeug.debug import DebuggedApplication
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 app = Flask(__name__, static_url_path='')
@@ -16,6 +17,7 @@ app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
 app.debug = True
 output_dir = "./foods-model"
 nlp = spacy.load(output_dir)
+reader = easyocr.Reader(['pt','en']) # need to run only once to load model into memory
 language = ['por','eng']
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif', '.jpeg']
@@ -53,6 +55,18 @@ def upload_files():
 @app.route('/uploads/<filename>')
 def upload(filename):
     return send_from_directory(app.config['UPLOAD_PATH'], filename)
+
+@app.route('/ocr2/<filename>')
+def ocr2(filename):
+    result = reader.readtext((os.path.join(app.config['UPLOAD_PATH'], filename)), detail = 0)
+    menu = " ".join(result)
+    print(menu)
+    items = extract_menu(menu)
+    with open('./static/ocr_files/{0}.txt'.format(filename),'w+') as f:
+      f.write(menu)
+    f.close()
+    # return jsonify({"menu": items})
+    return render_template('menu.html', items=items)
 
 @app.route('/ocr/<filename>')
 def ocr(filename):
