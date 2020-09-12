@@ -17,7 +17,7 @@ app.wsgi_app = DebuggedApplication(app.wsgi_app, True)
 app.debug = True
 output_dir = "./foods-model"
 nlp = spacy.load(output_dir)
-reader = easyocr.Reader(['pt','en']) # need to run only once to load model into memory
+reader = easyocr.Reader(['pt','en'], gpu=True) # need to run only once to load model into memory
 language = ['por','eng']
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif', '.jpeg']
@@ -62,7 +62,7 @@ def ocr2(filename):
     menu = " ".join(result)
     print(menu)
     items = extract_menu(menu)
-    with open('./static/ocr_files/{0}.txt'.format(filename),'w+') as f:
+    with open(('./static/ocr_files/{0}.txt'.format(filename)),'w') as f:
       f.write(menu)
     f.close()
     # return jsonify({"menu": items})
@@ -79,7 +79,7 @@ def ocr(filename):
 
     menu = pytesseract.image_to_string(th3, lang=language[0], config='--psm 6')
     items = extract_menu(menu)
-    with open('./static/ocr_files/{0}.txt'.format(filename),'w+') as f:
+    with open(('./static/ocr_files/{0}.txt'.format(filename)),'w') as f:
       f.write(menu)
     f.close()
     # return jsonify({"menu": items})
